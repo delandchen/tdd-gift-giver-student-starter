@@ -1,46 +1,40 @@
-const BadRequestError = require('../utils/errors');
+const { BadRequestError } = require('../utils/errors');
 
 class GiftExchange {
     static pairs(names) {
-        try {
-            if (names.length % 2 != 0) {
-                throw ("List of names cannot be odd!")
-            }
-            else {
-                const pairings = []; // Used to store our tuples/pairings
-                const used = [];
 
-                while (true) {
-                    if (pairings.length == names.length / 2) {
-                        break;
-                    }
+        if (names.length % 2 != 0) {
+            throw new BadRequestError("List of names must be even");
+        }
+        else {
+            const pairings = []; // Used to store our tuples/pairings
+            const used = [];
 
-                    // Get two random indexes, if there are equal, then redo
-                    let random1 = Math.floor(Math.random() * names.length)
-                    let random2 = Math.floor(Math.random() * names.length)
-
-                    if (random1 == random2 || used.includes(names[random1]) || used.includes(names[random2])) {
-                        continue;
-                    }
-
-                    // If the two randomly picked indexes are valid, then pair them and add to used.
-                    pairings.push([names[random1], names[random2]]);
-                    used.push(names[random1]);
-                    used.push(names[random2]);
+            while (true) {
+                if (pairings.length == names.length / 2) {
+                    break;
                 }
 
-                return pairings;
+                // Get two random indexes, if there are equal, then redo
+                let random1 = Math.floor(Math.random() * names.length)
+                let random2 = Math.floor(Math.random() * names.length)
+
+                if (random1 == random2 || used.includes(names[random1]) || used.includes(names[random2])) {
+                    continue;
+                }
+
+                // If the two randomly picked indexes are valid, then pair them and add to used.
+                pairings.push([names[random1], names[random2]]);
+                used.push(names[random1]);
+                used.push(names[random2]);
             }
-        }
-        catch (err) {
-            let error = new BadRequestError;
-            console.log(error.message);
-            console.log("Status: " + error.status);
-            console.log(err);
+
+            return pairings;
         }
     }
 
     static traditional(names) {
+
         const pairings = [];
         const used = [];
         let firstGiver = names[0];

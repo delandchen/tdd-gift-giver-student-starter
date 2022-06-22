@@ -1,5 +1,6 @@
 class ExpressionError extends Error {
     constructor(message, status) {
+        super();
         this.message = message;
         this.status = status;
     }
@@ -7,7 +8,7 @@ class ExpressionError extends Error {
 
 class BadRequestError extends Error {
     constructor(message = "Bad request", status = 400) {
-        super(message);
+        super();
         this.message = message;
         this.status = status;
     }
@@ -15,7 +16,7 @@ class BadRequestError extends Error {
 
 class NotFoundError extends Error {
     constructor(message = "Not found", status = 404) {
-        super(message);
+        super();
         this.message = message;
         this.status = status;
     }
