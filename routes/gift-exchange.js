@@ -3,34 +3,36 @@ const router = express.Router();
 const GiftExchange = require('../models/gift-exchange');
 const { BadRequestError } = require('../utils/errors');
 
-router.route('/pairs').post((req, res, next) => {
+router.use(express.json());
+
+router.post('/', (req, res, next) => {
+    res.send("Hello");
+})
+
+router.post('/pairs', async (req, res, next) => {
     try {
         let names = req.body.names;
-
-        if (names == {}) {
-            throw new BadRequestError("Must be array");
+        if (!names || names.length == 0) {
+            next(new BadRequestError("Must be array"));
         }
 
         const pairings = GiftExchange.pairs(names);
-        res.send(pairings);
-        res.status(200).send('Success!');
+        res.status(200).send(pairings);
     }
     catch (err) {
         next(err);
     }
 });
 
-router.route('/traditional').post((req, res, next) => {
+router.post('/traditional', async (req, res, next) => {
     try {
         let names = req.body.names;
-
-        if (names == {}) {
-            throw new BadRequestError("Must be array");
+        if (!names || names.length == 0) {
+            next(new BadRequestError("Must be array"));
         }
 
         const pairings = GiftExchange.traditional(names);
-        res.send(pairings);
-        res.status(200).send('Success!');
+        res.status(200).send(pairings);
     }
     catch (err) {
         next(err);
